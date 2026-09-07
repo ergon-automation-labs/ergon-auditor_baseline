@@ -29,12 +29,11 @@ defmodule BotArmyAuditorBaseline.Application do
     Supervisor.start_link(children, opts)
   end
 
+  # No Repo module yet: DB wiring (repo module, config, migrations) lands with
+  # the measurement-schema implementation. Starting the nonexistent
+  # BotArmyAuditorBaseline.Repo here crash-looped the supervisor at boot.
   defp maybe_add_repo(children) do
-    if @env == :test do
-      children
-    else
-      [{BotArmyAuditorBaseline.Repo, []} | children]
-    end
+    children
   end
 
   defp maybe_add_pulse_publisher(children) do
